@@ -1,12 +1,13 @@
 import json
 
+from django.db import transaction
 from django.http import Http404, HttpResponse
 from django.shortcuts import render, get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 
 from predictions import frc
-from predictions.models import Event
+from predictions.models import Event, Match
 
 
 def index(request):
@@ -26,8 +27,37 @@ def event(request, event_id):
     }
     return render(request, 'predictions/event.html', context)
 
+
 @csrf_exempt
 @require_POST
 def webhook(request):
-    print(json.loads(request.body))
-    return HttpResponse("OK")
+    m = json.loads(request.body)
+    if m['message_type'] == 'match_score':
+        event = get_object_or_404(Event, pk=m['event_key'])
+        with transaction.atomic():
+            for color in ['red', 'blue']:
+                match_id = m['key'] + '_' + color
+                match_num = m['key'].split('_')[1]
+                round = m['comp_level']
+                alliance = color == 'red'
+
+                if m['score_breakdown'] is not None:
+                    score = m['score_breakdown'][color]
+                    kpa = (score['kPaBonusPoints'] > 0 or score['kPaRankingPointAchieved'])
+                    rotor = (score['rotorBonusPoints'] > 0 or score['rotorRankingPointAchieved'])
+                else:
+                    kpa = None
+                    rotor = None
+
+                allies = m['alliances'][color]['teams']
+                team1 = frc.get_team(allies[0])
+                team2 = frc.get_team(allies[1])
+                team3 = frc.get_team(allies[2])
+                score = m['alliances'][color]['score']
+
+                match = Match(match_id=match_id, event=event, match_num=match_num, round=round, alliance=alliance,
+                              score=score, kpa=kpa, rotor=rotor, team1=team1, team2=team2, team3=team3)
+                match.save()
+        return HttpResponse("OK")
+    else:
+        raise Http404
