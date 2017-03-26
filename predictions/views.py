@@ -31,10 +31,11 @@ def event(request, event_id):
 @csrf_exempt
 @require_POST
 def webhook(request):
-    m = json.loads(request.body)
-    print(m)
-    if m['message_type'] == 'match_score':
+    content = json.loads(request.body)
+    if content['message_type'] == 'match_score':
+        m = content['message']
         event = get_object_or_404(Event, pk=m['event_key'])
+        m = m['match']
         with transaction.atomic():
             for color in ['red', 'blue']:
                 match_id = m['key'] + '_' + color
