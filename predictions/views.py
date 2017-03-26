@@ -20,7 +20,7 @@ def index(request):
 
 def event(request, event_id):
     event = get_object_or_404(Event, pk=event_id)
-    matches = frc.get_matches(event)
+    matches = frc.get_matches(event, 'force' in request.GET)
     context = {
         'event': event,
         'matches': sorted(frc.make_predictions(matches), key=lambda m: m[0].sort_key())
@@ -33,6 +33,7 @@ def event(request, event_id):
 def webhook(request):
     content = json.loads(request.body)
     message_type = content['message_type']
+    print(message_type)
     if message_type == 'match_score':
         m = content['message_data']
         event = get_object_or_404(Event, pk=m['event_key'])

@@ -63,7 +63,7 @@ def get_team(team_id: str) -> Team:
 
 def get_matches(event: Event, force=False):
     matches = event.matches.all()
-    if len(matches) > 0 or not force: return matches
+    if len(matches) > 0 and not force: return matches
 
     matches_tba = tba.tba_get('event/%s/matches' % event.event_id)
     matches = []
