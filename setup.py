@@ -33,5 +33,5 @@ setup(
         'Topic :: Internet :: WWW/HTTP :: Dynamic Content',
     ],
 
-    install_requires=['django', 'pytba', 'numpy', 'scipy', 'sklearn'],
+    install_requires=['django', 'django-jinja', 'pandas', 'pytba', 'numpy', 'scipy', 'sklearn'],
 )

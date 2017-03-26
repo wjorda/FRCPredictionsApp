@@ -5,3 +5,5 @@ predictions/migrations/__pycache__/
 predictions_app.egg-info/
 predictions_app/__pycache__/
 static/
+predictions_app/__init__.pyc
+predictions_app/wsgi.pyc
