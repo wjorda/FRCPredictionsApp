@@ -32,7 +32,8 @@ def event(request, event_id):
 @require_POST
 def webhook(request):
     content = json.loads(request.body)
-    if content['message_type'] == 'match_score':
+    message_type = content['message_type']
+    if message_type == 'match_score':
         m = content['message_data']
         event = get_object_or_404(Event, pk=m['event_key'])
         m = m['match']
@@ -60,6 +61,11 @@ def webhook(request):
                 match = Match(match_id=match_id, event=event, match_num=match_num, round=round, alliance=alliance,
                               score=score, kpa=kpa, rotor=rotor, team1=team1, team2=team2, team3=team3)
                 match.save()
+        return HttpResponse("OK")
+    elif message_type == "schedule_updated":
+        m = content['message_data']
+        event = get_object_or_404(Event, pk=m['event_key'])
+        frc.get_matches(event, force=True)
         return HttpResponse("OK")
     else:
         raise Http404
