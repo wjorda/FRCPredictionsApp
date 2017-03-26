@@ -33,7 +33,7 @@ def event(request, event_id):
 def webhook(request):
     content = json.loads(request.body)
     if content['message_type'] == 'match_score':
-        m = content['message']
+        m = content['message_data']
         event = get_object_or_404(Event, pk=m['event_key'])
         m = m['match']
         with transaction.atomic():
