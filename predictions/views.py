@@ -32,6 +32,7 @@ def event(request, event_id):
 @require_POST
 def webhook(request):
     m = json.loads(request.body)
+    print(m)
     if m['message_type'] == 'match_score':
         event = get_object_or_404(Event, pk=m['event_key'])
         with transaction.atomic():
