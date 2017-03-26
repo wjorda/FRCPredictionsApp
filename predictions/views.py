@@ -2,6 +2,8 @@ import json
 
 from django.http import Http404, HttpResponse
 from django.shortcuts import render, get_object_or_404
+from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_POST
 
 from predictions import frc
 from predictions.models import Event
@@ -24,8 +26,8 @@ def event(request, event_id):
     }
     return render(request, 'predictions/event.html', context)
 
-
+@csrf_exempt
+@require_POST
 def webhook(request):
-    if not request.method == 'POST': raise Http404
     print(json.loads(request.body))
     return HttpResponse("OK")
