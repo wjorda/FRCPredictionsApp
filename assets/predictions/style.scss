@@ -1,0 +1,58 @@
+$red_color: #ffc9c1;
+$blue_color: #c6e3ff;
+
+main {
+  width: 100%;
+  margin: auto;
+  padding: 20px;
+
+  .page-content {
+    width: 80%;
+    margin: auto;
+  }
+}
+
+table.matches-table {
+
+  border: 1px solid black;
+  border-collapse: collapse;
+
+  td {
+    padding: 2px;
+    text-align: center;
+    border: 1px solid black;
+    font-size: 13px;
+  }
+
+  td.score-col {
+    font-weight: 800;
+  }
+
+  td.match-name-col {
+    padding-left: 5px;
+    padding-right: 5px;
+    background-color: #d3d3d3;
+    font-weight: 800;
+  }
+
+  td.team-col {
+    font-weight: 200;
+    padding-left: 5px;
+    padding-right: 5px;
+  }
+
+  tr.red-row {
+    background-color: $red_color;
+    td {
+      border-bottom: none;
+    }
+  }
+
+  tr.blue-row {
+    td {
+      border-top: none;
+    }
+    background-color: $blue_color;
+  }
+
+}

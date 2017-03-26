@@ -1,0 +1,7 @@
+.idea/
+db.sqlite3
+predictions/__pycache__/
+predictions/migrations/__pycache__/
+predictions_app.egg-info/
+predictions_app/__pycache__/
+static/

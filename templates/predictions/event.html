@@ -1,0 +1,37 @@
+{% extends "predictions/_base.html" %}
+{% block title %}Predictions for {{ event.name }}{% endblock %}
+{% block header %}<h1>{{ event.name }}</h1>{% endblock %}
+{% block main %}
+    <div class="mdl-grid">
+        <table class="mdl-cell mdl-cell--6-col matches-table">
+            <thead>
+            <tr>
+                <th class=>Match</th>
+                <th colspan="3" class>Teams</th>
+                <th>Score</th>
+                <th>Predicted Score</th>
+                <th>Win Prob. %</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for match_pred in matches %}
+                <tr class="{% if match_pred.0.alliance %}red-row{% else %}blue-row{% endif %}">
+                    {% if match_pred.0.alliance %}
+                        <td rowspan="2" class="match-name-col">{{ match_pred.0.name }}</td>
+                    {% endif %}
+                    <td class="team-col">{{ match_pred.0.team1.team_id }}</td>
+                    <td class="team-col">{{ match_pred.0.team2.team_id }}</td>
+                    <td class="team-col">{{ match_pred.0.team3.team_id }}</td>
+                    {% if match_pred.0.score > -1 %}
+                        <td class="score-col">{{ match_pred.0.score }}</td>
+                    {% else %}
+                        <td>?</td>
+                    {% endif %}
+                    <td class="pred-score-col">{{ match_pred.1|floatformat }}</td>
+                    <td class="win-prob-col">{{ match_pred.2|floatformat }}%</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

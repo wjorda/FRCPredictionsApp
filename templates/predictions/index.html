@@ -1,0 +1,14 @@
+{% extends "predictions/_base.html" %}
+
+{% block main %}
+    {% if event_list %}
+        <ul>
+            {% for event in event_list %}
+                <li>{{ event.event_id }} - <a href="{% url 'predictions:event' event.event_id %}">{{ event.name }}</a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Hmmm, no events are available. Check back later.</p>
+    {% endif %}
+{% endblock %}
