@@ -11,10 +11,8 @@ https://docs.djangoproject.com/en/1.10/ref/settings/
 """
 
 import os
-
 import sys
-
-URL = '127.0.0.1:8000'
+from os import environ as env
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -25,15 +23,13 @@ TESTING = len(sys.argv) > 1 and sys.argv[1] == 'test'
 # See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'x27w%%5xk=oc32zlo$5wz$cwrxu0-^8ohs&q^)j(^0&t=x70a7'
+SECRET_KEY = env['PREDICTIONS_SECURITY_KEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = env['PREDICTIONS_DEBUG'].lower() == 'true'
 
 ALLOWED_HOSTS = [
-    'ec2-52-23-232-239.compute-1.amazonaws.com',
-    'cryptic-scrubland-78310.herokuapp.com',
-    'localhost'
+    env['PREDICTIONS_HOSTNAME']
 ]
 
 # Application definition
@@ -90,8 +86,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'predictions_app',
-        'USER': 'postgres',
-        'PASSWORD': 'postgres',
+        'USER': env['PREDICTIONS_POSTGRES_USER'],
+        'PASSWORD': env['PREDICTIONS_POSTGRES_PASSWORD'],
         'HOST': 'localhost',
         'PORT': '5432',
     }

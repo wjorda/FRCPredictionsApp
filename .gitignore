@@ -7,3 +7,5 @@ predictions_app/__pycache__/
 static/
 predictions_app/__init__.pyc
 predictions_app/wsgi.pyc
+predictions_dev.env
+set_env_vars.py
