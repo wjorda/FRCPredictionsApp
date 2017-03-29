@@ -31,6 +31,11 @@ OPR_SCORE_DICT = {
 
 
 def forwards_func(apps, schema_editor):
+    run = input("Perform 2017 data import? (type yes): ")
+    if run.lower() != 'yes':
+        print("Skipping import.")
+        return
+
     Event = apps.get_model("predictions", "Event")
     Team = apps.get_model("predictions", "Team")
     db_alias = schema_editor.connection.alias

@@ -31,6 +31,7 @@ SECRET_KEY = 'x27w%%5xk=oc32zlo$5wz$cwrxu0-^8ohs&q^)j(^0&t=x70a7'
 DEBUG = True
 
 ALLOWED_HOSTS = [
+    'ec2-52-23-232-239.compute-1.amazonaws.com',
     'cryptic-scrubland-78310.herokuapp.com',
     'localhost'
 ]

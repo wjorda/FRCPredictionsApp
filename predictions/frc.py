@@ -65,6 +65,8 @@ def get_matches(event: Event, force=False):
     matches = event.matches.all()
     if len(matches) > 0 and not force: return matches
 
+    if force: matches.delete()
+
     matches_tba = tba.tba_get('event/%s/matches' % event.event_id)
     matches = []
 
